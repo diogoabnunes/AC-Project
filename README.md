@@ -10,8 +10,17 @@
 
 # Requirements
 
+- Data about the clients and the loan requests
 
+# Business Goals
 
+- Improve bank services
+- Reduce loan risks
+- Improve bank understanding of clients
+
+# Data mining Goals
+
+- Predict accurately (with X accuracy) if a loan should be granted
 
 ## Criteria
 
