@@ -6,10 +6,10 @@
 
 [Case Description](https://moodle.up.pt/mod/page/view.php?id=65373)
 
-- Diogo: client.csv
-- Daniel: account.csv
-- César: district.csv
-disp.csv
+## TODO
+- Diogo: client.csv disp.csv disp-card
+- Daniel: account.csv account-...
+- César: district.csv district-client
 
 ## Criteria
 
