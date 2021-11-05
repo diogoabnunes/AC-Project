@@ -6,28 +6,30 @@
 
 [Case Description](https://moodle.up.pt/mod/page/view.php?id=65373)
 
-## Business Understanding
-
-# Requirements
-
-- Data about the clients and the loan requests
-
-# Business Goals
-
-- Improve bank services
-- Reduce loan risks
-- Improve bank understanding of clients
-
-# Data mining Goals
-
-- Predict accurately (with X accuracy) if a loan should be granted
+- Diogo: client.csv
+- Daniel: account.csv
+- César: district.csv
+disp.csv
 
 ## Criteria
 
-Business Understanding
+Problema: emprestimos nao pagos (origem)
+Descricao: perda $
+Objetivo banco: minimizar perdas
+
+
+## Business Understanding
 - BU: analysis of requirements with the end user
+  - Take into account data about the clients and past loan requests, accounts and transactions
+  - Use a data mining approach to address a descriptive and a predictive problem
+
 - BU: definition of business goals
+  - Reduce loan risks
+  - Improve bank understanding of clients
+
 - BU: translation of business goals into data mining goals
+  - Predict (with X auc) if a loan should be granted
+  - Create client profiles based on whether the client was granted a loan, and if they paid the loan back or not
 
 Data Understanding
 - DU: diversity of statistical methods
