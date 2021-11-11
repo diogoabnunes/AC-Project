@@ -39,3 +39,10 @@ print('No. of inhabitants per region:')
 for key in inhabitants:
     print(f'    - {key}: {inhabitants[key]}')
 print(f'Correlation between urban inhabitants and average salary in the districts: {salary_correlation}')
+
+client_fields = ['client_id', 'birth_number', 'district_id', 'gender']
+client = pd.read_csv('../data/updatedClient.csv', usecols=client_fields, sep=',')
+
+clients_district = client['district_id'].value_counts()
+# Of all the 77 districts, only 6 have at least 100 clients
+print(f'Clients per district:\n{clients_district}')
