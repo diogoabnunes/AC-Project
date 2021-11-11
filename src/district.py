@@ -23,18 +23,19 @@ district = pd.read_csv('../data/district.csv', usecols=district_fields, sep=';',
 
 unique_districts = district['code '].nunique()
 unique_regions = district['region'].nunique()
+urban_inhabitants = district['no. of inhabitants'].multiply(district['ratio of urban inhabitants '])
+salary_correlation = urban_inhabitants.corr(district['average salary '])
 inhabitants = {}
+
 for i, d in district.iterrows():
     if d['region'] not in inhabitants:
         inhabitants[d['region']] = d['no. of inhabitants']
     else:
         inhabitants[d['region']] += d['no. of inhabitants']
-avg_salary = {}
-for i, d in district.iterrows():
-    
 
 print(f'No. of districts: {unique_districts}')
 print(f'No. of regions: {unique_regions}')
 print('No. of inhabitants per region:')
 for key in inhabitants:
     print(f'    - {key}: {inhabitants[key]}')
+print(f'Correlation between urban inhabitants and average salary in the districts: {salary_correlation}')
