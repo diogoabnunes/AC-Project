@@ -45,4 +45,4 @@ client = pd.read_csv('../data/updatedClient.csv', usecols=client_fields, sep=','
 
 clients_district = client['district_id'].value_counts()
 # Of all the 77 districts, only 6 have at least 100 clients
-print(f'Clients per district:\n{clients_district}')
+print(f'No. of clients per district:\n{clients_district}')
