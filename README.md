@@ -6,11 +6,6 @@
 
 [Case Description](https://moodle.up.pt/mod/page/view.php?id=65373)
 
-## TODO
-- Diogo: client.csv disp.csv disp-card
-- Daniel: account.csv account-...
-- César: district.csv district-client
-
 ## Criteria
 
 Problema: emprestimos nao pagos (origem)
