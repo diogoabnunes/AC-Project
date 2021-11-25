@@ -45,8 +45,11 @@ def preProcessCard(card_df):
     df = card_df.copy()
     
     df['issued'] = pd.to_datetime(df['issued'], format='%y%m%d')
-    df = df.drop(['card_id'], axis=1)
+    df['month'] = df['issued'].dt.month
+    df['year'] = df['issued'].dt.year
+    df = df.drop(['card_id', 'issued'], axis=1)
     df = df.rename(columns={'type': 'card_type'})
+    
 
     return df
 
@@ -107,16 +110,32 @@ def ProcessRightSide(client, disp, card, district):
     # Merging Disp and Card so we can eliminate disp_id when group by account
     disp_card_df = disp_df.merge(card_df, on='disp_id', how='left')
     disp_card_df = disp_card_df.drop(['disp_id'], axis=1)
-    #
 
-    # Grouping owner and disponents id's by account
-    gb = disp_card_df.groupby(['account_id', 'disp_type', 'client_id'])
-    rightSide = gb.size().to_frame().reset_index().pivot(index='account_id', columns=['disp_type']).droplevel(['disp_type'], axis=1).set_axis(['disponent_id', 'owner_id', 'disponent_disp_type', 'owner_disp_type'], axis=1).reset_index()
-    rightSide = rightSide.drop(['disponent_disp_type', 'owner_disp_type'], axis=1)
+    rightSide = disp_card_df.pivot(index='account_id', columns=['disp_type']).droplevel([0], axis=1).set_axis(['disponent_id', 'owner_id', 'disponent_card_type', 'owner_card_type', 'disponent_issued_card_month', 'owner_issued_card_month', 'disponent_issued_card_year', 'owner_issued_card_year'], axis=1).reset_index()
 
-    print(rightSide)
+    rightSide = rightSide.merge(client_district_df, left_on='owner_id', right_on='client_id', how='left')
+    rightSide = rightSide.merge(client_district_df, left_on='disponent_id', right_on='client_id', how='left', suffixes=('', '_disp'))
+
+    rightSide = rightSide.drop(['client_id', 'client_id_disp', 'district_id', 'district_id_disp', 'disponent_card_type', 'disponent_issued_card_month', 'disponent_issued_card_year'], axis=1)
+    rightSide = rightSide.rename(columns={'gender': 'owner_gender', 'birth': 'owner_birth', 'no. of inhabitants': 'owner_num_inhabitants',
+        'no. of municipalities with inhabitants < 499 ': 'owner_num_municipalities_less_499',
+        'no. of municipalities with inhabitants 500-1999': 'owner_num_municipalities_between_500_1999',
+        'no. of municipalities with inhabitants 2000-9999 ': 'owner_num_municipalities_between_2000_9999',
+        'no. of municipalities with inhabitants >10000 ': 'owner_num_municipalities_more_10000',
+        'no. of cities ': 'owner_num_cities', 'ratio of urban inhabitants ': 'owner_inhabitants_ratio',
+        'average salary ': 'owner_average_salary', 'entrepeneurs ratio': 'owner_entrepeneurs_ratio',
+        'crimes_increase': 'owner_crimes_increase', 'unemploymant_increase': 'owner_unemploymant_increase'})
+    rightSide = rightSide.rename(columns={'gender_disp': 'disponent_gender', 'birth_disp': 'disponent_birth', 'no. of inhabitants_disp': 'disponent_num_inhabitants',
+        'no. of municipalities with inhabitants < 499 _disp': 'disponent_num_municipalities_less_499',
+        'no. of municipalities with inhabitants 500-1999_disp': 'disponent_num_municipalities_between_500_1999',
+        'no. of municipalities with inhabitants 2000-9999 _disp': 'disponent_num_municipalities_between_2000_9999',
+        'no. of municipalities with inhabitants >10000 _disp': 'disponent_num_municipalities_more_10000',
+        'no. of cities _disp': 'disponent_num_cities', 'ratio of urban inhabitants _disp': 'disponent_inhabitants_ratio',
+        'average salary _disp': 'disponent_average_salary', 'entrepeneurs ratio_disp': 'disponent_entrepeneurs_ratio',
+        'crimes_increase_disp': 'disponent_crimes_increase', 'unemploymant_increase_disp': 'disponent_unemploymant_increase'})
+    
     return rightSide
     
 rightSide = ProcessRightSide(preProcessedClient_df, preProcessedDisp_df, preProcessedCard_df, preProcessedDistrict_df)
-
-#print(processedDisp_df.head())
+print(rightSide)
+print(rightSide.isnull().sum())
