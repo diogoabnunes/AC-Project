@@ -26,8 +26,6 @@ def preProcessTransaction(transaction_df):
 
 preProcessedTransaction_df = preProcessTransaction(transaction_df)
 
-print(preProcessedTransaction_df.head())
-
 def processTransaction(pPTransaction_df):
     df = pPTransaction_df.copy()
     df = df.drop(['trans_id'], axis=1)
